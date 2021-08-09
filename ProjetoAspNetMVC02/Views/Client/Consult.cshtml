@@ -1,0 +1,63 @@
+﻿@using ProjetoAspNetMVC02.Entities
+@{
+    Layout = null;
+    var clients = TempData["Consult"] as List<Client>;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Consult</title>
+    <!-- CSS FILES-->
+    <!-- CSS FILES-->
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h5>Client Consult</h5>
+        <a href="/Home/Index">Home</a>
+
+        <div></div>
+        <hr />
+        @TempData["Message"]
+
+        <table class="table table-bordered table-striped table-hover">
+            <thead>
+                <tr>
+                    <th>Client name</th>
+                    <th>Email</th>
+                    <th>Registration date</th>
+                    <th>Operations</th>
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in clients)
+                {
+                    <tr>
+                        <td>@item.Name</td>
+                        <td>@item.Email</td>
+                        <td>@item.RegistrationData</td>
+                        <td>
+                            <a href="#" class="btn btn-primary btn-sm">Alter</a>
+                            <br />
+                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                        </td>
+
+                    </tr>
+                }
+            </tbody>
+            <tfoot>
+                <tr>
+                    <td colspan="4">
+                        Amount of clients: @clients.Count
+                    </td>
+                </tr>
+            </tfoot>
+        </table>
+    </div>
+    <!-- JS FILES-->
+    <link href="~/js/bootstrap.js" rel="stylesheet" />
+</body>
+</html>

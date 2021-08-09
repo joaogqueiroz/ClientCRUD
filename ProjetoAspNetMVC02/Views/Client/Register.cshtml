@@ -1,0 +1,45 @@
+﻿@model ProjetoAspNetMVC02.Models.ClientRegisterModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Register</title>
+    <!-- CSS FILES-->
+    <link href="~/css/bootstrap.css" rel="stylesheet" />
+</head>
+<body>
+    <div class="container mt-5">
+        <h5>Client Registration</h5>
+        <a href="/Home/Index">Home</a>
+        <hr />
+        <!--Using razor-->
+        @using (Html.BeginForm("Register", "Client", FormMethod.Post, 
+             new { @class = "col-md-4"}))
+        {
+            <label>Enter with client name: </label>
+            @Html.TextBoxFor(model => model.Name, new { @class="form-control"})
+            <span class="text-danger">
+                @Html.ValidationMessageFor(model => model.Name)
+            </span>
+            <br />
+            <label>Enter with client email: </label>
+            @Html.TextBoxFor(model => model.Email, new { @class = "form-control" })
+            <span class="text-danger">
+                @Html.ValidationMessageFor(model => model.Email)
+            </span>
+            <br />
+
+            <input type="submit" value="Register" class="btn btn-success" />
+        }
+        <br />
+        <h5>@TempData["Messege"]</h5>
+    </div>
+    <!-- JS FILES-->
+    <link href="~/js/bootstrap.js" rel="stylesheet" />
+</body>
+</html>
