@@ -60,5 +60,47 @@ namespace ProjetoAspNetMVC02.Controllers
             }
             return View();
         }
+        [HttpPost]
+        public IActionResult Consult(ClientConsultModel model)
+        {
+
+            try
+            {
+                if (ModelState.IsValid)
+                {
+                    TempData["Consult"] = _clientRepository.ConsultByName(model.Name);
+                }
+                else
+                {
+                    TempData["Consult"] = _clientRepository.Consult();
+                }
+                
+            }
+            catch (Exception e)
+            {
+
+                TempData["Messege"] = e.Message;
+            }
+            return View();
+        }
+
+        public IActionResult Delete(Guid id)
+        {
+            try
+            {
+                //Search client in data base using ID for it.
+                var client = _clientRepository.GetByID(id);
+                //Deleting client
+                _clientRepository.Delete(client);
+                TempData["Messege"] = $"Client {client.Name} was deleted successfully";              
+
+            }
+            catch (Exception e)
+            {
+
+                TempData["Messege"] = e.Message;
+            }
+            return RedirectToAction("Consult");
+        }
     }
 }

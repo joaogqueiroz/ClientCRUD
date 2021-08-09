@@ -12,6 +12,7 @@ namespace ProjetoAspNetMVC02.Interfaces
         void Delete(Client client);
         void Alter(Client client);
         List<Client> Consult();
+        List<Client> ConsultByName(string name);
         Client GetByID(Guid clientId);
     }
 }

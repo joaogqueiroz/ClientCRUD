@@ -1,4 +1,5 @@
-﻿@using ProjetoAspNetMVC02.Entities
+﻿@model ProjetoAspNetMVC02.Models.ClientConsultModel
+@using ProjetoAspNetMVC02.Entities
 @{
     Layout = null;
     var clients = TempData["Consult"] as List<Client>;
@@ -13,17 +14,30 @@
     <!-- CSS FILES-->
     <!-- CSS FILES-->
     <link href="~/css/bootstrap.css" rel="stylesheet" />
+    
 </head>
 <body>
     <div class="container mt-5">
         <h5>Client Consult</h5>
         <a href="/Home/Index">Home</a>
 
-        <div></div>
         <hr />
-        @TempData["Message"]
+        @using (Html.BeginForm("Consult", "Client", FormMethod.Post, new { @class = "col-md-3" }))
+        {
+            <label>Search by client name: </label>
+            @Html.TextBoxFor(model => model.Name, new { @class = "form-control" })
+            <span class="text-danger">
+                @Html.ValidationMessageFor(model => model.Name)
+            </span>
+            <br />
 
-        <table class="table table-bordered table-striped table-hover">
+            <input type="submit" name="Search" value="Search Client" class="btn btn-success" />
+            <br />
+            <br />
+        }
+
+        <h5>@TempData["Messege"]</h5>
+        <table class="table table-bordered table-striped table-hover text-center">
             <thead>
                 <tr>
                     <th>Client name</th>
@@ -40,9 +54,12 @@
                         <td>@item.Email</td>
                         <td>@item.RegistrationData</td>
                         <td>
-                            <a href="#" class="btn btn-primary btn-sm">Alter</a>
-                            <br />
-                            <a href="#" class="btn btn-danger btn-sm">Delete</a>
+                            <a href="/Client/Edit?id=@item.ClientID" class="btn btn-primary btn-sm">
+                                Alter
+                            </a>
+                            <a href="/Client/Delete?id=@item.ClientID" class="btn btn-danger btn-sm" onclick="return confirm('Do you want delete the client @item.Name ?')">
+                                Delete
+                            </a>
                         </td>
 
                     </tr>

@@ -20,7 +20,18 @@ namespace ProjetoAspNetMVC02.Repositories
 
         public void Alter(Client client)
         {
-            throw new NotImplementedException();
+            var query = @"
+                        UPDATE CLIENT 
+                        SET
+                            NAME = @Name,
+                            EMAIL = @Email
+                        WHERE  
+                            CLIENTID = @ClientID
+                        ";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+                connection.Execute(query, client);
+            }
         }
 
         public List<Client> Consult()
@@ -35,9 +46,29 @@ namespace ProjetoAspNetMVC02.Repositories
             }
         }
 
+        public List<Client> ConsultByName(string name)
+        {
+            var query = @"
+                        SELECT * FROM CLIENT
+                        WHERE NAME LIKE @name
+                        ";
+            name = $"%{name}%";
+            using (var connection = new SqlConnection(_connectionString))
+            {
+               return connection.Query<Client>(query, new { name }).ToList();
+            }
+        }
+
         public void Delete(Client client)
         {
-            throw new NotImplementedException();
+            var query = @"
+                        DELETE FROM CLIENT
+                        WHERE CLIENTID =  @ClientID
+                        ";
+            using (var connection = new SqlConnection(_connectionString)) 
+            {
+                connection.Execute(query, client);
+            }
         }
 
         public Client GetByID(Guid clientId)
@@ -49,7 +80,7 @@ namespace ProjetoAspNetMVC02.Repositories
                         ";
             using (var connection = new SqlConnection(_connectionString))
             {
-                return connection.Query(query, clientId).FirstOrDefault();
+                return connection.Query<Client>(query, new { clientId }).FirstOrDefault();
             }
         }
 
